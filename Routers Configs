@@ -1,0 +1,272 @@
+ROUTER 1
+
+Router(config)#do sh ip ospf neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+4.4.4.4           1   FULL/DR         00:00:36    10.0.0.18       GigabitEthernet0/2
+10.0.0.25         1   FULL/DR         00:00:34    10.0.0.2        GigabitEthernet0/0
+3.3.3.3           1   FULL/DR         00:00:37    10.0.0.10       GigabitEthernet0/1
+
+Router(config)#do sh ip protocol
+
+Routing Protocol is "ospf 1"
+  Outgoing update filter list for all interfaces is not set 
+  Incoming update filter list for all interfaces is not set 
+  Router ID 1.1.1.1
+  Number of areas in this router is 1. 1 normal 0 stub 0 nssa
+  Maximum path: 4
+  Routing for Networks:
+    0.0.0.0 0.0.0.0 area 0
+  Routing Information Sources:  
+    Gateway         Distance      Last Update 
+    1.1.1.1              110      00:23:40
+    3.3.3.3              110      00:17:34
+    4.4.4.4              110      00:23:46
+    10.0.0.25            110      00:13:59
+  Distance: (default is 110)
+
+Router(config)#do sh ip ospf int br
+Interface     PID   Area                     IP Address/Mask          Cost  State  Nbrs F/C
+Gig0/0          1   0                       10.0.0.1/255.255.255.252   1      BDR  0/0
+Gig0/1          1   0                       10.0.0.9/255.255.255.252   1      BDR  0/0
+Gig0/2          1   0                      10.0.0.17/255.255.255.252   1      BDR  0/0
+
+Router(config)#do sh ip ospf database
+            OSPF Router with ID (1.1.1.1) (Process ID 1)
+
+                Router Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum Link count
+1.1.1.1         1.1.1.1         1499        0x8000000e 0x005852 3
+4.4.4.4         4.4.4.4         1505        0x8000000d 0x000e73 3
+3.3.3.3         3.3.3.3         1133        0x80000011 0x008ec1 3
+10.0.0.25       10.0.0.25       918         0x80000018 0x007dbf 3
+
+                Net Link States (Area 0)
+Link ID         ADV Router      Age         Seq#       Checksum
+10.0.0.10       3.3.3.3         1505        0x80000009 0x00a9a6
+10.0.0.14       4.4.4.4         1505        0x80000009 0x00c576
+10.0.0.2        10.0.0.25       1500        0x8000000f 0x00c1d6
+10.0.0.5        10.0.0.25       1500        0x80000010 0x00bf30
+
+Router(config)#do sh ip ro
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     1.0.0.0/32 is subnetted, 1 subnets
+C       1.1.1.1/32 is directly connected, Loopback0
+     10.0.0.0/8 is variably subnetted, 8 subnets, 2 masks
+C       10.0.0.0/30 is directly connected, GigabitEthernet0/0
+L       10.0.0.1/32 is directly connected, GigabitEthernet0/0
+O       10.0.0.4/30 [110/2] via 10.0.0.2, 03:57:51, GigabitEthernet0/0
+C       10.0.0.8/30 is directly connected, GigabitEthernet0/1
+L       10.0.0.9/32 is directly connected, GigabitEthernet0/1
+O       10.0.0.12/30 [110/2] via 10.0.0.10, 03:57:51, GigabitEthernet0/1
+C       10.0.0.16/30 is directly connected, GigabitEthernet0/2
+L       10.0.0.17/32 is directly connected, GigabitEthernet0/2
+     192.168.1.0/29 is subnetted, 1 subnets
+O       192.168.1.0/29 [110/2] via 10.0.0.2, 02:47:34, GigabitEthernet0/0
+     192.168.2.0/29 is subnetted, 1 subnets
+O       192.168.2.0/29 [110/2] via 10.0.0.10, 02:51:13, GigabitEthernet0/1
+
+**ROUTER 2**
+
+Router(config)#do sh ip ospf nei
+
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1           1   FULL/BDR        00:00:34    10.0.0.1        GigabitEthernet0/0
+4.4.4.4           1   FULL/BDR        00:00:34    10.0.0.6        GigabitEthernet0/1
+
+Router(config)#do sh ip ospf nei
+
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1           1   FULL/BDR        00:00:34    10.0.0.1        GigabitEthernet0/0
+4.4.4.4           1   FULL/BDR        00:00:34    10.0.0.6        GigabitEthernet0/1
+Router(config)#do sh ip ospf int br
+Interface     PID   Area                     IP Address/Mask          Cost  State  Nbrs F/C
+Gig0/0          1   0                       10.0.0.2/255.255.255.252   1       DR  0/0
+Gig0/1          1   0                       10.0.0.5/255.255.255.252   1       DR  0/0
+Gig0/2          1   0                    192.168.1.1/255.255.255.248   1       DR  0/0
+
+Router(config)#do sh ip ospf database 
+            OSPF Router with ID (10.0.0.25) (Process ID 1)
+
+                Router Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum Link count
+10.0.0.25       10.0.0.25       1182        0x80000018 0x007dbf 3
+4.4.4.4         4.4.4.4         1770        0x8000000d 0x000e73 3
+1.1.1.1         1.1.1.1         1765        0x8000000e 0x005852 3
+3.3.3.3         3.3.3.3         1399        0x80000011 0x008ec1 3
+
+                Net Link States (Area 0)
+Link ID         ADV Router      Age         Seq#       Checksum
+10.0.0.2        10.0.0.25       1765        0x8000000f 0x00c1d6
+10.0.0.5        10.0.0.25       1765        0x80000010 0x00bf30
+10.0.0.10       3.3.3.3         1770        0x80000009 0x00a9a6
+10.0.0.14       4.4.4.4         1770        0x80000009 0x00c576
+
+Router(config)#do sh ip ro
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     10.0.0.0/8 is variably subnetted, 6 subnets, 2 masks
+C       10.0.0.0/30 is directly connected, GigabitEthernet0/0
+L       10.0.0.2/32 is directly connected, GigabitEthernet0/0
+C       10.0.0.4/30 is directly connected, GigabitEthernet0/1
+L       10.0.0.5/32 is directly connected, GigabitEthernet0/1
+O       10.0.0.8/30 [110/2] via 10.0.0.1, 04:01:03, GigabitEthernet0/0
+O       10.0.0.12/30 [110/2] via 10.0.0.6, 04:01:03, GigabitEthernet0/1
+     192.168.1.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.1.0/29 is directly connected, GigabitEthernet0/2
+L       192.168.1.1/32 is directly connected, GigabitEthernet0/2
+     192.168.2.0/29 is subnetted, 1 subnets
+O       192.168.2.0/29 [110/3] via 10.0.0.1, 02:54:25, GigabitEthernet0/0
+                       [110/3] via 10.0.0.6, 02:54:25, GigabitEthernet0/1
+
+
+**ROUTER 3**
+
+Router(config)#do sh ip ospf nei
+
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1           1   FULL/BDR        00:00:32    10.0.0.9        GigabitEthernet0/0
+4.4.4.4           1   FULL/DR         00:00:37    10.0.0.14       GigabitEthernet0/1
+
+Router(config)#do sh ip ospf nei
+
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+1.1.1.1           1   FULL/BDR        00:00:32    10.0.0.9        GigabitEthernet0/0
+4.4.4.4           1   FULL/DR         00:00:37    10.0.0.14       GigabitEthernet0/1
+Router(config)#
+Router(config)#do sh ip ospf int br
+Interface     PID   Area                     IP Address/Mask          Cost  State  Nbrs F/C
+Gig0/0          1   0                      10.0.0.10/255.255.255.252   1       DR  0/0
+Gig0/1          1   0                      10.0.0.13/255.255.255.252   1      BDR  0/0
+Gig0/2          1   0                    192.168.2.1/255.255.255.248   1       DR  0/0
+
+Router(config)#do sh ip ospf data
+            OSPF Router with ID (3.3.3.3) (Process ID 1)
+
+                Router Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum Link count
+3.3.3.3         3.3.3.3         1556        0x80000011 0x008ec1 3
+10.0.0.25       10.0.0.25       1341        0x80000018 0x007dbf 3
+4.4.4.4         4.4.4.4         125         0x8000000e 0x000c74 3
+1.1.1.1         1.1.1.1         121         0x8000000f 0x005653 3
+
+                Net Link States (Area 0)
+Link ID         ADV Router      Age         Seq#       Checksum
+10.0.0.10       3.3.3.3         127         0x8000000a 0x00c5e8
+10.0.0.14       4.4.4.4         125         0x8000000a 0x002f81
+10.0.0.2        10.0.0.25       120         0x80000011 0x004baa
+10.0.0.5        10.0.0.25       120         0x80000012 0x006184
+
+Router(config)#do sh ip ro
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     3.0.0.0/32 is subnetted, 1 subnets
+C       3.3.3.3/32 is directly connected, Loopback0
+     10.0.0.0/8 is variably subnetted, 6 subnets, 2 masks
+O       10.0.0.0/30 [110/2] via 10.0.0.9, 04:03:36, GigabitEthernet0/0
+O       10.0.0.4/30 [110/2] via 10.0.0.14, 04:03:36, GigabitEthernet0/1
+C       10.0.0.8/30 is directly connected, GigabitEthernet0/0
+L       10.0.0.10/32 is directly connected, GigabitEthernet0/0
+C       10.0.0.12/30 is directly connected, GigabitEthernet0/1
+L       10.0.0.13/32 is directly connected, GigabitEthernet0/1
+     192.168.1.0/29 is subnetted, 1 subnets
+O       192.168.1.0/29 [110/3] via 10.0.0.9, 02:53:19, GigabitEthernet0/0
+                       [110/3] via 10.0.0.14, 02:53:19, GigabitEthernet0/1
+     192.168.2.0/24 is variably subnetted, 2 subnets, 2 masks
+C       192.168.2.0/29 is directly connected, GigabitEthernet0/2
+L       192.168.2.1/32 is directly connected, GigabitEthernet0/2
+
+
+**ROUTER 4**
+
+Router(config)#do sh ip ospf nei
+
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+10.0.0.25         1   FULL/DR         00:00:33    10.0.0.5        GigabitEthernet0/1
+1.1.1.1           1   FULL/BDR        00:00:33    10.0.0.17       GigabitEthernet0/2
+3.3.3.3           1   FULL/BDR        00:00:34    10.0.0.13       GigabitEthernet0/0
+
+Router(config)#do sh ip ospf int br
+Interface     PID   Area                     IP Address/Mask          Cost  State  Nbrs F/C
+Gig0/0          1   0                      10.0.0.14/255.255.255.252   1       DR  0/0
+Gig0/1          1   0                       10.0.0.6/255.255.255.252   1      BDR  0/0
+Gig0/2          1   0                      10.0.0.18/255.255.255.252   1       DR  0/0
+
+Router(config)#do sh ip ospf data
+            OSPF Router with ID (4.4.4.4) (Process ID 1)
+
+                Router Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum Link count
+4.4.4.4         4.4.4.4         303         0x8000000e 0x000c74 3
+3.3.3.3         3.3.3.3         1733        0x80000011 0x008ec1 3
+10.0.0.25       10.0.0.25       1518        0x80000018 0x007dbf 3
+1.1.1.1         1.1.1.1         299         0x8000000f 0x005653 3
+
+                Net Link States (Area 0)
+Link ID         ADV Router      Age         Seq#       Checksum
+10.0.0.14       4.4.4.4         303         0x8000000a 0x002f81
+10.0.0.10       3.3.3.3         306         0x8000000a 0x00c5e8
+10.0.0.2        10.0.0.25       298         0x80000011 0x004baa
+10.0.0.5        10.0.0.25       298         0x80000012 0x006184
+
+Router(config)#do sh ip ro
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2, E - EGP
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       * - candidate default, U - per-user static route, o - ODR
+       P - periodic downloaded static route
+
+Gateway of last resort is not set
+
+     4.0.0.0/32 is subnetted, 1 subnets
+C       4.4.4.4/32 is directly connected, Loopback0
+     10.0.0.0/8 is variably subnetted, 8 subnets, 2 masks
+O       10.0.0.0/30 [110/2] via 10.0.0.5, 04:06:49, GigabitEthernet0/1
+C       10.0.0.4/30 is directly connected, GigabitEthernet0/1
+L       10.0.0.6/32 is directly connected, GigabitEthernet0/1
+O       10.0.0.8/30 [110/2] via 10.0.0.13, 04:06:49, GigabitEthernet0/0
+C       10.0.0.12/30 is directly connected, GigabitEthernet0/0
+L       10.0.0.14/32 is directly connected, GigabitEthernet0/0
+C       10.0.0.16/30 is directly connected, GigabitEthernet0/2
+L       10.0.0.18/32 is directly connected, GigabitEthernet0/2
+     192.168.1.0/29 is subnetted, 1 subnets
+O       192.168.1.0/29 [110/2] via 10.0.0.5, 02:56:27, GigabitEthernet0/1
+     192.168.2.0/29 is subnetted, 1 subnets
+O       192.168.2.0/29 [110/2] via 10.0.0.13, 03:00:01, GigabitEthernet0/0
+
